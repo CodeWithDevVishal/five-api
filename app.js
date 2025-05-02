@@ -24,7 +24,7 @@ app.use("/api/product",product)
 app.use("/api/bank",bank)
 
 
-app.listen(5000,()=>{console.log("running ......  ....");})
+app.listen(process.env.PORT,()=>{console.log("running ......  ....");})
 
 async function db() {
     try {
