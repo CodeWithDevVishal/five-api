@@ -25,7 +25,7 @@ exports.postTodo = async (req,res) => {
 
 exports.putTodo = async (req,res) => {
     try {
-        const todoExist = await Todo.findOne({todo:req.body.todo})
+        const todoExist = await Todo.findOne({_id:req.params.id})
         if(!todoExist) return res.status(500).json({errors:true,message:"Somthin went wrong"})
         const data = await Todo.findByIdAndUpdate(req.params.id,req.body,{new:true})
         return res.json({errors:false,data:data})

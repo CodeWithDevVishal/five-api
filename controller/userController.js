@@ -1,7 +1,7 @@
 const User = require("../model/user")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const user = require("../model/user")
+
 
 exports.getUser = async (req,res) => {
     try {
@@ -16,7 +16,7 @@ exports.postUser = async (req,res) => {
     try {
         const userExist = await User.findOne({email:req.body.email})
         if(userExist) return res.status(500).json({errors:true,message:"user alredy exist"})
-        req.body.password = bcrypt.hash(req.body.password,10)
+        req.body.password = await bcrypt.hash(req.body.password,10)
         const data = await User.create(req.body)
         return res.json({errors:false,data:data})
     } catch (error) {
@@ -26,9 +26,9 @@ exports.postUser = async (req,res) => {
 
 exports.putUser = async (req,res) => {
     try {
-        const userExist = await User.findOne({email:req.body.email})
+        const userExist = await User.findOne({_id:req.params.id})
         if (!userExist) return res.status(500).json({errors:true,message:"Invalied user emali or password"})
-        const verifyPassword = bcrypt.compare(req.body.password,userExist.password)
+        const verifyPassword = await bcrypt.compare(req.body.password,userExist.password)
         if (!verifyPassword) return res.status(500).JSON({errors:true,message:"Invalied user emali or password"})
         const data = await User.findByIdAndUpdate(req.params.id,req.body,{new:true})
         return res.json({errors:false,data:data})

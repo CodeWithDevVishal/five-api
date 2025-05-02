@@ -35,7 +35,7 @@ exports.putProduct = async (req,res) => {
 
 exports.deleteProduct = async (req,res) => {
     try {
-        const data = await Bank.findByIdAndDelete(req.params.id,{new:true})
+        const data = await Product.findByIdAndDelete(req.params.id,{new:true})
         if (!data) return res.status(500).json({ errors: true, message: " product no found" })
         return res.json({errors:false,data:data})
     } catch (error) {
