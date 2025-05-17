@@ -29,7 +29,7 @@ exports.putUser = async (req,res) => {
         const userExist = await User.findOne({_id:req.params.id})
         if (!userExist) return res.status(500).json({errors:true,message:"Invalied user emali or password"})
         const verifyPassword = await bcrypt.compare(req.body.password,userExist.password)
-        if (!verifyPassword) return res.status(500).JSON({errors:true,message:"Invalied user emali or password"})
+        if (!verifyPassword) return res.status(500).json({errors:true,message:"Invalied user emali or password"})
         const data = await User.findByIdAndUpdate(req.params.id,req.body,{new:true})
         return res.json({errors:false,data:data})
     } catch (error) {
